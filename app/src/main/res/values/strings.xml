@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">managerhotel</string>
+    <string name="action_settings">Settings</string>
+    <string name="text_first_access"><b>Bem Vindo!</b></string>
+    <string name="text_first_access2">Por aqui você pode realizar pedidos de enxoval, amenities e
+        outros tipos de serviços. Aproveite!</string>
+    <string name="text_continue"><b>continuar</b></string>
+</resources>
