@@ -5,4 +5,10 @@
     <string name="text_first_access2">Por aqui você pode realizar pedidos de enxoval, amenities e
         outros tipos de serviços. Aproveite!</string>
     <string name="text_continue"><b>continuar</b></string>
+    <string name="button_enviar_pedido"><b>Solicitar itens</b></string>
+    <string name="text_pedido">O que você deseja pedir?</string>
+    <string name="menu_item_enxoval">Enxoval</string>
+    <string name="menu_item_amenities">Amenities</string>
+    <string name="menu_item_limpeza">Limpeza</string>
+    <string name="menu_item_outros">Outros</string>
 </resources>

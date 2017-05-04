@@ -9,23 +9,37 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import br.com.managerhotel.adapters.MenuAdapter;
+import br.com.managerhotel.adapters.PedidoAdapter;
+import br.com.managerhotel.controller.SystemController;
 import br.com.managerhotel.model.GridMenuItem;
 import br.com.managerhotel.R;
+import br.com.managerhotel.model.Item;
+import br.com.managerhotel.model.Pedido;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private GridView menuList;
+    public static SystemController system;
+    private ListView pedidosList;
+    private TextView tvLabelPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        system = new SystemController(this);
+        system.createMenuList();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,19 +50,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createMenu() {
-        ArrayList<GridMenuItem> itens= new ArrayList<>();
-        itens.add(new GridMenuItem("Amenities", R.drawable.icon_amenties, "#99004C"));
-        itens.add(new GridMenuItem("Enxoval", R.drawable.icon_enxoval, "#CCCC00"));
-        itens.add(new GridMenuItem("Limpeza", R.drawable.icon_limpeza, "#CC6600"));
-        itens.add(new GridMenuItem("Outros", R.drawable.icon_outros, "#990099"));
 
-        menuList.setAdapter(new MenuAdapter(this, itens));
+        menuList.setAdapter(new MenuAdapter(this, system.getMenuItemList()));
         menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GridMenuItem item = (GridMenuItem) parent.getAdapter().getItem(position);
                 Intent i = null;
-                switch (item.getLabel()){
+                switch (item.getLabel()) {
                     case "Amenities":
                         i = new Intent(getBaseContext(), AmenitiesActivity.class);
                         break;
@@ -67,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        buildPedidos();
     }
 
 
@@ -86,7 +96,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildViews() {
+        tvLabelPedidos = (TextView) findViewById(R.id.tv_label_pedidos);
         menuList = (GridView) findViewById(R.id.menuList);
+        pedidosList = (ListView) findViewById(R.id.lv_pedidos);
+        pedidosList.setVerticalScrollBarEnabled(false);
         menuList.setVerticalScrollBarEnabled(false);
     }
 
@@ -94,4 +107,41 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    public void buildPedidos(){
+
+        List<Pedido> pedidos= system.getPedidosList();
+
+        if(pedidos.size()>0){
+            tvLabelPedidos.setVisibility(View.GONE);
+        }else{
+            tvLabelPedidos.setVisibility(View.VISIBLE);
+        }
+
+        pedidosList.setAdapter(new PedidoAdapter(this, pedidos));
+        pedidosList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pedido pedido = (Pedido) parent.getAdapter().getItem(position);
+                for (Item i : pedido.getItens()) {
+                    if(!pedido.getSession().equals("Limpeza")){
+                        showMessage("Item: " + i.getName() + " Quantidade: " + i.getQtd());
+                    }else {
+                        showMessage("Item: " + i.getName());
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        buildPedidos();
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        buildPedidos();
+        super.onResume();
+    }
 }

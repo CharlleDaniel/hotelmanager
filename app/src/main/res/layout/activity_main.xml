@@ -21,7 +21,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="left">
                 <ImageView
-                    android:layout_width="150dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/hotel_logo"
                    android:layout_gravity="left"
@@ -88,7 +88,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="200dp"
                 android:elevation="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -141,19 +141,19 @@
                 <ListView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/listViewPlanilhas"
+                    android:id="@+id/lv_pedidos"
                     android:layout_below="@+id/title_box"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginBottom="5dp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Não a pedidos em andamento"
-                    android:id="@+id/textView2"
-                    android:layout_alignTop="@+id/listViewPlanilhas"
+                    android:text="Não há pedidos em andamento"
+                    android:id="@+id/tv_label_pedidos"
+                    android:layout_alignTop="@+id/lv_pedidos"
                     android:layout_below="@+id/title_box"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
